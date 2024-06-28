@@ -13,6 +13,10 @@ load_dotenv(dotenv_path)
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME = os.environ.get("DB_NAME")
 
+# Tambahkan pengecekan untuk memastikan DB_NAME telah berhasil diambil
+if DB_NAME is None:
+    raise ValueError("Environment variable DB_NAME is not set")
+
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
 
