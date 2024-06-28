@@ -1,28 +1,25 @@
 import os
-from os.path import join, dirname 
+from os.path import join, dirname
 from dotenv import load_dotenv
-load_dotenv()
-
-
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 
-dotenv_path= join (dirname(__file__), '.env') 
+
+dotenv_path = join(dirname(__file__), '.env')
+
 load_dotenv(dotenv_path)
 
-MONGODB_URI = os.environ.get("mongodb+srv://gilangsholeh18:Gilang2007MongoDB@cluster0.bajeyhd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME = os.environ.get("DB_NAME")
 
-DB_NAME= os.environ.get("dbsparta")
-
-
-client = MongoClient('mongodb+srv://gilangsholeh18:Gilang2007MongoDB@cluster0.bajeyhd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-db = client.dbsparta
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-   return render_template('index.html')
+    return render_template('index.html')
 
 @app.route("/homework", methods=["POST"])
 def homework_post():
@@ -33,7 +30,7 @@ def homework_post():
         'comment': comment_receive,
     }
     db.fanmessages.insert_one(doc)
-    return jsonify({'msg':'POST request!'})
+    return jsonify({'msg': 'POST request!'})
 
 @app.route("/homework", methods=["GET"])
 def homework_get():
@@ -41,4 +38,4 @@ def homework_get():
     return jsonify({'messages': message_list})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
