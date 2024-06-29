@@ -4,16 +4,16 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 
-# Tentukan path ke file .env
+
 dotenv_path = join(dirname(__file__), '.env')
-# Load file .env
+
 load_dotenv(dotenv_path)
 
-# Ambil nilai dari environment variables
+
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME = os.environ.get("DB_NAME")
 
-# Tambahkan pengecekan untuk memastikan DB_NAME telah berhasil diambil
+
 if DB_NAME is None:
     raise ValueError("Environment variable DB_NAME is not set")
 
